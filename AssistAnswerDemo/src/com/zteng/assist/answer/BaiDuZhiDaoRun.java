@@ -11,6 +11,9 @@ import org.jsoup.select.Elements;
 
 public class BaiDuZhiDaoRun implements Runnable {
 
+	
+	public static final String mUrl = "https://zhidao.baidu.com/search?lm=0&rn=10&pn=0&fr=search&word=";
+	
 	public String search = "";
 	public ArrayList<String> optionItem;
 
@@ -21,13 +24,16 @@ public class BaiDuZhiDaoRun implements Runnable {
 		this.optionItem = optionItem;
 	}
 
+	public void reSet(String search,ArrayList<String> optionItem){
+		this.search = search;
+		this.optionItem = optionItem;
+	}
+	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-
 		String encode = URLEncoder.encode(search);
-		String url = "https://zhidao.baidu.com/search?lm=0&rn=10&pn=0&fr=search&word=" + encode;
-
+		String url = mUrl + encode;
 		try {
 			Document doc = Jsoup.connect(url)
 					// .data("query", "Java") //请求参数
@@ -40,12 +46,14 @@ public class BaiDuZhiDaoRun implements Runnable {
 			Element element = elementsByClass.get(0);
 			Elements elementsByClass2 = element.getElementsByClass("dl");
 			int size = elementsByClass2.size();
-			System.out.println("\n---------------- 百度知道结果(展示前三条)----------------------\n");
-
+			
 			if (size > 6) {
 				size = 6;
 			}
-
+			
+		ArrayList<String> arrayList = new ArrayList<String>();
+		
+			
 			for (int x = 0; x < size; x++) {
 
 				Element element2 = elementsByClass2.get(x);
@@ -59,16 +67,22 @@ public class BaiDuZhiDaoRun implements Runnable {
 					System.out.println(summary.get(0).text());*/
 
 				Elements answer = element2.getElementsByClass("dd answer");
-				if (answer.size() > 0)
-					System.out.println(answer.get(0).text() +"\n");
+				if (answer.size() > 0) {
+					String text = answer.get(0).text();
+					arrayList.add(text);
+					//System.out.println(text +"\n");
+				}
+				
 
 				//System.out.println("\n--------------------------------------------------------\n");
 			}
+			System.out.println("----------------------------百度知道----------------------------\n");
+			ResultFiltrate.filtrating(arrayList, optionItem);
+	
+			ResultFiltrate.filtratingV2(arrayList, optionItem);
+			//long endTime = System.currentTimeMillis() - CDDemo.startTime;
 			
-			
-			long endTime = System.currentTimeMillis() - CDDemo.startTime;
-			
-			System.out.println("百度知道Thread  所用时间 = "+endTime+" / "+(endTime/1000));
+			//System.out.println("百度知道Thread  所用时间 = "+endTime+" / "+(endTime/1000) +"\n");
 			
 
 		} catch (IOException e) {

@@ -9,24 +9,25 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class BingRun implements Runnable {
+public class BaiDuSSRun implements Runnable {
 
-	public static final String mUrl = "https://cn.bing.com/search?q=";
+	public static final String mUrl = "https://www.baidu.com/s?wd=";
 
 	public String search = "";
 	public ArrayList<String> optionItem;
-
 	//
-	public BingRun(String search, ArrayList<String> optionItem) {
+	public BaiDuSSRun(String search,ArrayList<String> optionItem) {
 		super();
 		this.search = search;
 		this.optionItem = optionItem;
 	}
 
+	
 	public void reSet(String search,ArrayList<String> optionItem){
 		this.search = search;
 		this.optionItem = optionItem;
 	}
+	
 	
 	@Override
 	public void run() {
@@ -42,36 +43,31 @@ public class BingRun implements Runnable {
 					.timeout(2000) // 设置连接超时时间
 					.get();
 
-			Elements elementsByClass = doc.getElementsByClass("b_algo");
+			Elements elementsByClass = doc.getElementsByClass("c-abstract");
 
 			int size = elementsByClass.size();
-			if (size >6) size = 6;
-
+			if (size > 6) size = 6;
 			ArrayList<String> arrayList = new ArrayList<String>();
-			
-			
 			for (int x = 0; x < size; x++) {
 
 				Element element = elementsByClass.get(x);
-				Elements elementsByTag = element.getElementsByTag("p");
-
-				if (elementsByTag != null) {
-					String text = elementsByTag.text();
+		
+				if (element != null) {
+					String text = element.text();
 					arrayList.add(text);
-					System.out.println(elementsByTag.text());
-
+					//System.out.println(text);
 				}
 			}
 			
 		
-			System.out.println("----------------------------Bing----------------------------\n");
+			System.out.println("----------------------------百度搜索----------------------------\n");
 			ResultFiltrate.filtrating(arrayList, optionItem);
 	
 			ResultFiltrate.filtratingV2(arrayList, optionItem);
 			
-             // long endTime = System.currentTimeMillis() - CDDemo.startTime;
+        //      long endTime = System.currentTimeMillis() - CDDemo.startTime;
 			
-			//System.out.println("Bing Thread  所用时间 = "+endTime+" / "+(endTime/1000) +"\n");
+			//System.out.println("百度搜索 Thread  所用时间 = "+endTime+" / "+(endTime/1000) +"\n");
 			
 
 		} catch (IOException e) {
