@@ -34,7 +34,7 @@ public class ResultFiltrate {
 					continue;
 				}
 				int subCount = getSubCount(answesString, key);
-				treeMap.put(subCount+key, key);
+				treeMap.put(subCount+"_"+key, key);
 			}
 		}
 		
@@ -61,7 +61,7 @@ public class ResultFiltrate {
 					continue;
 				}
 				int subCount = getSubCount(answesString, key);
-				treeMap.put(subCount+key, key);
+				treeMap.put(subCount+"_"+key, key);
 			}
 		}
 		System.out.println(treeMap.toString()+"\n");

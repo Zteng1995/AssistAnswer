@@ -80,8 +80,8 @@ public class CDDemo {
 			while (true) {
 				System.out.println("请稍后.. ");
 				startTime = System.currentTimeMillis();
-				// String jt = exeCmd(cmd_screenshot);
-				// String jt_pull = exeCmd(cmd_pull);
+				 String jt = exeCmd(cmd_screenshot);
+				 String jt_pull = exeCmd(cmd_pull);
 				// System.out.println("截图 pull ： " + jt_pull);
 				System.out.println("---------------------开始请求--------------------- ");
 				ImageUtils.cutPNG(new FileInputStream("D:\\Users\\Administrator\\Desktop\\cddh\\screenshot.png"),
