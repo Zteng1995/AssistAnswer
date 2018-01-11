@@ -37,6 +37,7 @@ public class ResultFiltrate {
 				treeMap.put(subCount+key, key);
 			}
 		}
+		
 		System.out.println(treeMap.toString()+"\n");
 	}
 	
